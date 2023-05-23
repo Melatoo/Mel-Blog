@@ -1,0 +1,12 @@
+<h1> Posts sobre: {{categoria.nome}} </h1>
+{{#each postagens}}
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4>{{titulo}}</h4>
+            <p>{{conteudo}}</p>
+            <a href="/postagem/{{slug}}" class="btn btn-info">Leia Mais</a>
+        </div>
+    </div>
+{{else}}
+    <div class="alert alert-danger mt-4">Ainda não temos postagens nessa categoria...!</div>
+{{/each}}

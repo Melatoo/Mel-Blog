@@ -7,18 +7,17 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/admin/postagens">Postagens</a>
+          <a class="nav-link" href="/categorias">Categorias</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin/categorias">Categorias</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Registro</a>
+          <a class="nav-link" href="/admin">Rota Admin</a>
         </li>
       </ul>
+      {{#if user}}
+      <a href="/usuarios/logout" class="btn btn-danger">Sair</a>
+      {{else}}
+      <a href="/usuarios/login" class="btn btn-primary">Login</a>
+      {{/if}}
     </div>
   </div>
 </nav>

@@ -1,0 +1,16 @@
+<h4>Entre com sua conta!</h4>
+<hr>
+<div class="card">
+    <div class="card-body">
+        <form action="/usuarios/login" method="post">
+            <label for="email">Email: </label>
+                <input type="email" class="form-control" name="email" placeholder="Seu email">
+            <label for="senha" class="mt-3">Senha: </label>
+                <input type="password" name="senha" id="senha" class="form-control" placeholder="Sua senha">
+            <button class="btn btn-success mt-3" type="submit">Entrar</button>
+        </form>
+    </div>
+</div>
+<hr>
+<h4>Não tem uma conta? Crie já!</h4>
+<a class="btn btn-primary btn-lg mt-2" href="/usuarios/registro">Criar conta</a>
