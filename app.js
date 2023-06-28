@@ -16,6 +16,9 @@ require("./models/usuario");
 const Usuarios = mongoose.model("usuarios");
 const passport = require('passport');
 require("./config/auth")(passport);
+const swagger = require('swagger-ui-express');
+const swaggerDocs = require('./helpers/swagger.json');
+
 //Configurações
     //Sessão
         app.use(session({
@@ -64,36 +67,38 @@ require("./config/auth")(passport);
         if(!req.user){
             req.flash("error_msg", "Você precisa estar logado para acessar essa página!")
             res.redirect('/')
+        } else{
+            Categoria.find().lean().then((categorias) => {
+                res.render('categorias/index', {categorias: categorias})
+            }).catch((err) => {
+                req.flash("error_msg", "Erro Interno!")
+                res.redirect('/')
+            })
         }
-        Categoria.find().lean().then((categorias) => {
-            res.render('categorias/index', {categorias: categorias})
-        }).catch((err) => {
-            req.flash("error_msg", "Erro Interno!")
-            res.redirect('/')
-        })
     })
 
     app.get('/categorias/:slug', (req, res) => {
         if(!req.user){
             req.flash("error_msg", "Você precisa estar logado para acessar essa página!")
             res.redirect('/')
-        }
-        Categoria.findOne({slug: req.params.slug}).lean().then((categoria) => {
-            if(categoria){
-                Postagem.find({categoria: categoria._id}).lean().then((postagens) => {
-                    res.render('categorias/postagens', {postagens: postagens, categoria: categoria})
-                }).catch((err) => {
-                    req.flash("error_msg", "Erro ao listar postagens!")
+        }else{
+            Categoria.findOne({slug: req.params.slug}).lean().then((categoria) => {
+                if(categoria){
+                    Postagem.find({categoria: categoria._id}).lean().then((postagens) => {
+                        res.render('categorias/postagens', {postagens: postagens, categoria: categoria})
+                    }).catch((err) => {
+                        req.flash("error_msg", "Erro ao listar postagens!")
+                        res.redirect('/')
+                    })
+                } else {
+                    req.flash("error_msg", "Esta categoria não existe!")
                     res.redirect('/')
-                })
-            } else {
-                req.flash("error_msg", "Esta categoria não existe!")
+                }
+            }).catch((err) => {
+                req.flash("error_msg", "Erro Interno!")
                 res.redirect('/')
-            }
-        }).catch((err) => {
-            req.flash("error_msg", "Erro Interno!")
-            res.redirect('/')
-        })
+            })
+        }
     })
 
     app.get('/404', (req, res) => {
@@ -104,23 +109,25 @@ require("./config/auth")(passport);
         if(!req.user){
             req.flash("error_msg", "Você precisa estar logado para acessar essa página!")
             res.redirect('/')
-        }
-        Postagem.findOne({slug: req.params.slug}).lean().then((postagem) => {
-            if(postagem){
-                res.render('postagem/index', {postagem: postagem})
-            } else {
-                req.flash("error_msg", "Esta postagem não existe!")
+        } else {
+            Postagem.findOne({slug: req.params.slug}).lean().then((postagem) => {
+                if(postagem){
+                    res.render('postagem/index', {postagem: postagem})
+                } else {
+                    req.flash("error_msg", "Esta postagem não existe!")
+                    res.redirect('/')
+                }
+            }).catch((err) => {
+                req.flash("error_msg", "Erro interno!")
                 res.redirect('/')
-            }
-        }).catch((err) => {
-            req.flash("error_msg", "Erro interno!")
-            res.redirect('/')
-        })
+            })
+        }
     })
     app.use('/admin', rotaAdmin);
     app.use('/usuarios', rotaUsuario);
+    app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocs));
 //Outros
-const PORT = 8081;
+const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
     console.log('Servidor rodando');
 });

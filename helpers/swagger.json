@@ -1,0 +1,486 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "BlogApp API",
+    "version": "1.0.0",
+    "description": "Documentação da API do BlogApp"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8081"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Obter todas as postagens",
+        "responses": {
+          "200": {
+            "description": "Lista de postagens obtidas com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/categorias": {
+      "get": {
+        "summary": "Obter todas as categorias",
+        "responses": {
+          "200": {
+            "description": "Lista de categorias obtidas com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/categorias/{slug}": {
+      "get": {
+        "summary": "Obter postagens por categoria",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            },
+            "description": "Slug da categoria"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de postagens por categoria obtida com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/postagem/{slug}": {
+      "get": {
+        "summary": "Obter detalhes da postagem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "items": {
+                "$ref": "#/components/schemas/Postagem"
+              }
+            },
+            "description": "Slug da postagem"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes da postagem obtidos com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/admin/categorias": {
+      "get": {
+        "summary": "Obter todas as categorias com tela de edição",
+        "responses": {
+          "200": {
+            "description": "Lista de categorias obtidas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Categoria"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/admin/categorias/edit/{id}": {
+      "get":{
+        "summary": "Editar categoria por id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "items": {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            },
+            "description": "Id da categoria"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria editada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Categoria"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/admin/categorias/edit": {
+      "post": {
+        "summary": "Categoria editada",
+        "responses": {
+          "200": {
+            "description": "Categoria editada com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/admin/categorias/add": {
+      "get": {
+        "summary": "Adcionar categoria",
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/admin/categorias/nova": {
+      "post":{
+        "summary": "Categoria adcionada",
+        "responses": {
+          "200": {
+            "description": "Categoria adcionada com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/admin/categorias/deletar": {
+      "post": {
+        "summary": "Categoria deletada",
+        "responses": {
+          "200": {
+            "description": "Categoria deletada com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/admin/postagens": {
+      "get": {
+        "summary": "Obter todas as postagens com tela de edição",
+        "responses": {
+          "200": {
+            "description": "Lista de postagens obtidas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Postagem"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/admin/postagens/add": {
+      "get": {
+        "summary": "Adcionar postagem",
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/admin/postagem/nova": {
+      "post":{
+        "summary": "Postagem adcionada",
+        "responses": {
+          "200": {
+            "description": "Postagem adcionada com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/admin/postagens/edit/{id}": {
+      "get":{
+        "summary": "Obter postagem por id para editar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "items": {
+                "$ref": "#/components/schemas/Postagem"
+              }
+            },
+            "description": "Id da postagem"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Postagem obtida com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Postagem"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/admin/postagens/edit": {
+      "post": {
+        "summary": "Postagem editada",
+        "responses": {
+          "200": {
+            "description": "Postagem editada com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/admin/postagens/deletar/{id}": {
+      "post": {
+        "summary": "Deletar postagem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "items": {
+                "$ref": "#/components/schemas/Postagem"
+              }
+            },
+            "description": "Id da postagem"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Postagem deletada com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/usuarios/registro": {
+      "get": {
+        "summary": "Registrar usuário",
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "post":{
+        "summary": "Usuário registrado",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Usuario"
+            },
+            "description": "Usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário registrado com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/usuarios/login": {
+      "get": {
+        "summary": "Login de usuário",
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "post":{
+        "summary": "Usuário logado",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Usuario"
+            },
+            "description": "Usuário"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário logado com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          },
+          "400": {
+            "description": "Erro de validação"
+          }
+        }
+      }
+    },
+    "/usuarios/logout": {
+      "get": {
+        "summary": "Logout de usuário",
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Postagem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "conteudo": {
+            "type": "string"
+          },
+          "categoria": {
+            "$ref": "#/components/schemas/Categoria"
+          }
+        }
+      },
+      "Categoria": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        }
+      },
+      "Usuario": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "number"
+          },
+          "email": {
+            "type": "string"
+          },
+          "senha": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
